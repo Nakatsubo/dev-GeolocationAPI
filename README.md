@@ -168,4 +168,6 @@ function setMap(lat, lng) {
     position: latlng
   });
 };
+
+// clearWatch() => watchPositionメソッドによる定期的な監視を停止
 ```
