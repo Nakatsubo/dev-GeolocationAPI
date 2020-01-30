@@ -1,14 +1,28 @@
 // 現在地を取得
-navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+navigator.geolocation.getCurrentPosition(
+  // 取得成功時の関数
+  geoSuccess,
+  // 取得失敗時の関数
+  geoError,
+  {
+    // 位置情報取得のタイムアウト時間
+    timeout: 4000,
+    // 位置情報の有効期限
+    maximumAge: 0,
+    // 精度の高い位置情報を取得するか
+    enableHighAccuracy: false
+  });
 
 // 取得成功時の関数
 function geoSuccess(position) {
   // 緯度
-  const lat = position.coords.latitude;
-  console.log(lat);
+  const lat = parseFloat(position.coords.latitude);
+  console.log(typeof(lat));
+  // => number
   // 経度
-  const lng = position.coords.longitude;
-  console.log(lng);
+  const lng = parseFloat(position.coords.longitude);
+  console.log(typeof(lng));
+  // => number
 
   // // 誤差
   // console.log(Math.floor(position.coords.accuracy));
@@ -40,23 +54,18 @@ function geoError(error) {
 
 // Google Maps
 function setMap(lat, lng) {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: lat, lng: lng},
-    zoom: 8
+  // 緯度経度を設定
+  const latlng = { lat: lat, lng: lng }
+  // マップを設定
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center: latlng,
+    zoom: 16
+  });
+  // マーカーを設定
+  const marker = new google.maps.Marker({
+    map: map,
+    draggale: true,
+    animation: google.maps.Animation.DROP,
+    position: latlng
   });
 };
-
-// // Google Maps
-// function setMap(lat, lng) {
-//   // 緯度経度を設定
-//   const latlng = new google.maps.LatLng(lat, lng);
-//   console.log(latlng);
-//   // マーカーを追加
-//   const marker = new google.maps.Marker({
-//     map: map,
-//     draggale: true,
-//     animation: google.maps.Animation.DROP,
-//     position: latlng
-//   });
-//   console.log(marker);
-// };
